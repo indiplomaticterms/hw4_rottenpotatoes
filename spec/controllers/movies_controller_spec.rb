@@ -11,6 +11,12 @@ describe MoviesController do
       Movie.should_receive(:find_by_id).with('1').and_return(@fake_movie)
       post :similar_movies, { :id => 1 }
     end
+    it 'should check if movie has director info' do
+      @fake_movie = double(:title => 'movie1', :director => 'director1')
+      Movie.stub(:find_by_id).and_return(@fake_movie)
+      @fake_movie.should_receive(:director)
+      post :similar_movies, { :id => 1 }
+    end
     describe 'for a movie with director info' do
       before :each do
         @fake_movie = mock(:title => 'movie1', :director => 'director1')
